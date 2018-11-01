@@ -8,26 +8,23 @@ let conn =
     (),
   );
 
-let updateSql = "UPDATE user SET name='mickey' WHERE id=2;";
-let deleteSql = "delete from user WHERE id=1;";
+let updateSql = "UPDATE user SET name='mickey' WHERE id=:id;";
+let addSql = "INSERT INTO user(name, sex, intro) VALUES(:name,:sex,'this is something');";
+let deleteSql = "delete from user WHERE id=:id;";
 let selectSql = "select * from user;";
 
-external convertSelectToJsObj : MySql2.Select.t => Js.t({..}) = "%identity";
+let handleSql = (conn, sql, param, ()) => {
+  Js.log2("the param", param);
 
-let handleSql = (conn, sql, param, ()) =>
   Js.Promise.make((~resolve, ~reject) =>
-    MySql2.execute(
-      conn,
-      sql,
-      param,
-      res => {
-        switch (res) {
-        | `Error(e) => reject(. e |> Obj.magic)
-        | `Select(select) => resolve(. convertSelectToJsObj(select)##rows)
-        | `Mutation(mutation) => resolve(. mutation)
-        };
-
-        /* MySql2.Connection.close(conn); */
-      },
+    MySql2.execute(conn, sql, param, res =>
+      switch (res) {
+      | `Error(e) => reject(. e |> Obj.magic)
+      | `Select(select) =>
+        resolve(. SqlOperateType.convertSelectToJsObj(select)##rows)
+      | `Mutation(mutation) => resolve(. "success")
+      /* MySql2.Connection.close(conn); */
+      }
     )
   );
+};

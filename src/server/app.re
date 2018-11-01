@@ -1,24 +1,50 @@
 open Express;
 
+open WonderBsJson;
+
 let app = App.make();
 let schema =
   WonderBsGraphql.GraphQL.Utilities.buildSchema(
     {|
+      type User{
+        id: ID!
+        name: String
+        sex: String
+      }
+
       type Query { users: [User]! }
 
-      type User{
-        id:ID!
-        name:String
-        sex:String
+      type Mutation {
+        deleteUser(id: ID!): String
+        addUser(name:String!, sex:String): String
       }
     |},
   );
-let rootValue = {
-  "users": () =>
-    PromiseUtils.await(
-      SqlUtils.handleSql(SqlUtils.conn, SqlUtils.selectSql, None),
-    ),
-};
+
+let rootValue =
+  {
+    "users": () =>
+      PromiseUtils.await(
+        SqlUtils.handleSql(SqlUtils.conn, SqlUtils.selectSql, None),
+      ),
+    "deleteUser": param =>
+      PromiseUtils.await(
+        SqlUtils.handleSql(
+          SqlUtils.conn,
+          SqlUtils.deleteSql,
+          Some(MySql2.Params.named(param)),
+        ),
+      ),
+    "addUser": param =>
+      PromiseUtils.await(
+        SqlUtils.handleSql(
+          SqlUtils.conn,
+          SqlUtils.addSql,
+          Some(MySql2.Params.named(param)),
+        ),
+      ),
+  }
+  |> Obj.magic;
 
 [@bs.module "body-parser"]
 external bodyParserJson : unit => Middleware.t = "json";
@@ -53,6 +79,6 @@ App.useOnPath(app, graphiqlMiddleware, ~path="/graphiql");
 App.listen(
   app,
   ~port=8088,
-  ~onListen=_ => Js.log("this success connect ==> http://localhost:8888"),
+  ~onListen=_ => Js.log("this success connect ==> http://localhost:8088"),
   (),
 );

@@ -19,8 +19,9 @@
     "reason-apollo",
     "bs-express",
     "bs-node",
+    "bs-css",
     "bs-mysql2",
-    "@glennsl/bs-json",
+    "wonder-bs-json",
     "wonder-bs-graphql",
     "wonder-bs-apollo-server-express"
   ],
