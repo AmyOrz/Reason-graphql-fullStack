@@ -1,0 +1,49 @@
+{
+  "name": "reason-graphql-fullstack",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "bsb -make-world",
+    "watch": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "start": "node ./lib/js/src/server/app.js",
+    "webpack": "webpack"
+  },
+  "keywords": [
+    "BuckleScript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@glennsl/bs-json": "^3.0.0",
+    "apollo-cache-inmemory": "^1.2.1",
+    "apollo-client": "^2.3.1",
+    "apollo-link": "^1.2.2",
+    "apollo-link-context": "^1.0.8",
+    "apollo-link-error": "^1.0.9",
+    "apollo-link-http": "^1.5.4",
+    "apollo-link-ws": "^1.0.8",
+    "apollo-utilities": "^1.0.16",
+    "body-parser": "^1.18.3",
+    "bs-express": "^0.9.0",
+    "bs-mysql2": "^8.2.1",
+    "bs-node": "github:reasonml-community/bs-node",
+    "express": "^4.16.4",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.9.2",
+    "react": "^16.3.2",
+    "react-apollo": "^2.1.6",
+    "react-dom": "^16.3.2",
+    "reason-apollo": "0.14.1",
+    "reason-react": "^0.5.3",
+    "subscriptions-transport-ws": "^0.9.11",
+    "wonder-bs-apollo-server-express": "^0.0.1",
+    "wonder-bs-graphql": "^0.0.3"
+  },
+  "devDependencies": {
+    "bs-platform": "^4.0.6",
+    "graphql_ppx": "^0.2.4",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.3"
+  }
+}
