@@ -3,48 +3,6 @@ open Express;
 open WonderBsJson;
 
 let app = App.make();
-let schema =
-  WonderBsGraphql.GraphQL.Utilities.buildSchema(
-    {|
-      type User{
-        id: ID!
-        name: String
-        sex: String
-      }
-
-      type Query { users: [User]! }
-
-      type Mutation {
-        deleteUser(id: ID!): String
-        addUser(name:String!, sex:String): String
-      }
-    |},
-  );
-
-let rootValue =
-  {
-    "users": () =>
-      PromiseUtils.await(
-        SqlUtils.handleSql(SqlUtils.conn, SqlUtils.selectSql, None),
-      ),
-    "deleteUser": param =>
-      PromiseUtils.await(
-        SqlUtils.handleSql(
-          SqlUtils.conn,
-          SqlUtils.deleteSql,
-          Some(MySql2.Params.named(param)),
-        ),
-      ),
-    "addUser": param =>
-      PromiseUtils.await(
-        SqlUtils.handleSql(
-          SqlUtils.conn,
-          SqlUtils.addSql,
-          Some(MySql2.Params.named(param)),
-        ),
-      ),
-  }
-  |> Obj.magic;
 
 [@bs.module "body-parser"]
 external bodyParserJson : unit => Middleware.t = "json";
@@ -58,8 +16,8 @@ App.use(
 
 let graphqlMiddleware =
   WonderBsApolloServerExpress.ApolloServerExpress.createGraphQLExpressMiddleware(
-    ~rootValue,
-    schema,
+    ~rootValue=AppGraphQL.getRootValue(),
+    AppGraphQL.getSchema(),
     (),
   );
 let graphiqlMiddleware =

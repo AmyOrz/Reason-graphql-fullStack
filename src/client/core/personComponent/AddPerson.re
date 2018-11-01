@@ -17,6 +17,10 @@ module AddPerson = [%graphql
 ];
 module AddPersonMutation = ReasonApollo.CreateMutation(AddPerson);
 
+module Method = {
+  let isValueHasEmpty = state => state.name === "" || state.sex === "";
+};
+
 let component = ReasonReact.reducerComponent("AddPerson");
 
 let reducer = (action, state) =>
@@ -30,6 +34,7 @@ let render = ({state, send}: ReasonReact.self('a, 'b, 'c)) =>
     ...(
          (mutation, {result}) =>
            <div>
+             <h1> (DomHelper.textEl("Add Person")) </h1>
              <span className=""> (DomHelper.textEl("name :")) </span>
              <input
                value=state.name
@@ -59,7 +64,7 @@ let render = ({state, send}: ReasonReact.self('a, 'b, 'c)) =>
                )
              />
              <button
-               disabled=(state.name === "" || state.sex === "")
+               disabled=(Method.isValueHasEmpty(state))
                onClick=(
                  _ => {
                    let addPersonMutation =
