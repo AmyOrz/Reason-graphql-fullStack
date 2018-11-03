@@ -3,7 +3,7 @@ let getUserValue = () =>
     "users": () =>
       PromiseUtils.await(
         MysqlCommon.handleSql(
-          MysqlCommon.conn,
+          MysqlCommon.createMySqlConnect(),
           OperateUserSql.selectSql,
           None,
         ),
@@ -11,7 +11,7 @@ let getUserValue = () =>
     "deleteUser": param =>
       PromiseUtils.await(
         MysqlCommon.handleSql(
-          MysqlCommon.conn,
+          MysqlCommon.createMySqlConnect(),
           OperateUserSql.deleteSql,
           Some(MySql2.Params.named(param)),
         ),
@@ -19,7 +19,7 @@ let getUserValue = () =>
     "addUser": param =>
       PromiseUtils.await(
         MysqlCommon.handleSql(
-          MysqlCommon.conn,
+          MysqlCommon.createMySqlConnect(),
           OperateUserSql.addSql,
           Some(MySql2.Params.named(param)),
         ),

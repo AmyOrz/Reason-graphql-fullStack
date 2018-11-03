@@ -1,5 +1,5 @@
 {
-  "name": "react-template",
+  "name": "reason-graphql-fullstack",
   "reason": {
     "react-jsx": 2
   },
@@ -7,6 +7,11 @@
     {
       "dir": "src",
       "subdirs": true
+    },
+    {
+      "dir": "test",
+      "subdirs": true,
+      "type": "dev"
     }
   ],
   "bsc-flags": [
@@ -19,13 +24,19 @@
     "reason-apollo",
     "bs-express",
     "bs-node",
-    "bs-css",
     "bs-mysql2",
     "wonder-bs-json",
     "wonder-bs-graphql",
     "wonder-bs-apollo-server-express"
   ],
+  "bs-dev-dependencies": [
+    "@glennsl/bs-jest",
+    "wonder-bs-sinon"
+  ],
   "refmt": 3,
+  "package-specs": [
+    "es6-global"
+  ],
   "ppx-flags": [
     "graphql_ppx/ppx"
   ]
