@@ -84,7 +84,7 @@
               "deprecationReason": null
             },
             {
-              "name": "sex",
+              "name": "address",
               "description": "",
               "args": [],
               "type": {
@@ -129,7 +129,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "sex",
+                  "name": "address",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",

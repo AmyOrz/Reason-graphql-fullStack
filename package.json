@@ -6,7 +6,7 @@
     "bsb:build": "bsb -clean-world -make-world",
     "test:watch": "jest --maxWorkers=4 --watch --config jest.json",
     "test:update": "jest --maxWorkers=4 -u --config jest.json",
-    "start": "node ./lib/es6_global/src/server/app.js",
+    "start": "node ./lib/js/src/server/app.js",
     "webpack": "webpack"
   },
   "keywords": [

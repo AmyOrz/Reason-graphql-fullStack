@@ -1,32 +1,32 @@
 type state = {
   name: string,
-  sex: string,
+  address: string,
 };
 
 type action =
   | ChangeName(string)
-  | ChangeSex(string);
+  | ChangeAddress(string);
 
-module AddPerson = [%graphql
+module AddUser = [%graphql
   {|
 
-    mutation addUser($name: String!, $sex:String!) {
-        addUser( name: $name, sex: $sex)
+    mutation addUser($name: String!, $address:String!) {
+        addUser( name: $name, address: $address)
       }
 |}
 ];
-module AddPersonMutation = ReasonApollo.CreateMutation(AddPerson);
+module AddPersonMutation = ReasonApollo.CreateMutation(AddUser);
 
 module Method = {
-  let isValueHasEmpty = state => state.name === "" || state.sex === "";
+  let isValueHasEmpty = state => state.name === "" || state.address === "";
 };
 
-let component = ReasonReact.reducerComponent("AddPerson");
+let component = ReasonReact.reducerComponent("AddUser");
 
 let reducer = (action, state) =>
   switch (action) {
   | ChangeName(value) => ReasonReact.Update({...state, name: value})
-  | ChangeSex(value) => ReasonReact.Update({...state, sex: value})
+  | ChangeAddress(value) => ReasonReact.Update({...state, address: value})
   };
 
 let render = ({state, send}: ReasonReact.self('a, 'b, 'c)) =>
@@ -49,13 +49,13 @@ let render = ({state, send}: ReasonReact.self('a, 'b, 'c)) =>
                    )
                )
              />
-             <span className=""> (DomHelper.textEl("sex :")) </span>
+             <span className=""> (DomHelper.textEl("address :")) </span>
              <input
-               value=state.sex
+               value=state.address
                onChange=(
                  event =>
                    send(
-                     ChangeSex(
+                     ChangeAddress(
                        ReactDOMRe.domElementToObj(
                          ReactEventRe.Form.target(event),
                        )##value,
@@ -68,7 +68,7 @@ let render = ({state, send}: ReasonReact.self('a, 'b, 'c)) =>
                onClick=(
                  _ => {
                    let addPersonMutation =
-                     AddPerson.make(~name=state.name, ~sex=state.sex, ());
+                     AddUser.make(~name=state.name, ~address=state.address, ());
 
                    mutation(
                      ~variables=addPersonMutation##variables,
@@ -96,7 +96,7 @@ let render = ({state, send}: ReasonReact.self('a, 'b, 'c)) =>
 
 let make = _children => {
   ...component,
-  initialState: () => {name: "", sex: ""},
+  initialState: () => {name: "", address: ""},
   reducer,
   render: self => render(self),
 };

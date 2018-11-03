@@ -7,26 +7,34 @@ open Sinon;
 open WonderBsGraphql;
 
 let _ =
-  describe("123123", () => {
+  describe("test table user", () => {
     let sandbox = getSandboxDefaultVal();
-    beforeEach(() => sandbox := createSandbox());
+    beforeEach(() => {
+      sandbox := createSandbox();
+
+      TestInitTool.initTest();
+    });
     afterEach(() => restoreSandbox(refJsObjToSandbox(sandbox^)));
 
     describe("#run", () => {
-      let schema = AppGraphQL.getSchema();
-      let rootValue = AppGraphQL.getRootValue();
       let source = {|
           {
             users{
-              id 
-              name 
-              sex
+              id
+              name
+              address
             }
           }
         |};
+      beforeEach(() => UserTableTool.insertDataIntoUser());
 
       testPromise("run queries through the function", () =>
-        GraphQL.run(schema, source, ~rootValue, ())
+        GraphQL.run(
+          AppGraphQLTool.getSchema(),
+          source,
+          ~rootValue=UserValueTool.getUserValue(),
+          (),
+        )
         |> Js.Promise.then_(execResult => {
              Js.log(execResult);
 

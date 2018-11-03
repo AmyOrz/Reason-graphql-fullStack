@@ -2,7 +2,7 @@ let _query = {|
       type User{
         id: ID!
         name: String
-        sex: String
+        address: String
       }
 
       type Query { users: [User]! }
@@ -11,7 +11,7 @@ let _query = {|
 let _mutation = {|
       type Mutation {
         deleteUser(id: ID!): String
-        addUser(name:String!, sex:String): String
+        addUser(name:String!, address:String!): String
       }
 |};
 

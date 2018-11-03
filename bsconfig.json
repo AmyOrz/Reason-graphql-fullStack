@@ -34,9 +34,6 @@
     "wonder-bs-sinon"
   ],
   "refmt": 3,
-  "package-specs": [
-    "es6-global"
-  ],
   "ppx-flags": [
     "graphql_ppx/ppx"
   ]

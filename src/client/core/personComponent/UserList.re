@@ -6,7 +6,7 @@ module GetAllUser = [%graphql
       users{
         id
         name
-        sex
+        address
       }
    }
 |}
@@ -46,7 +46,7 @@ let make = _children => {
                               <tr key=(index |> string_of_int)>
                                 <td> (user##id |> ste) </td>
                                 <td> (user##name |> ste) </td>
-                                <td> (user##sex |> ste) </td>
+                                <td> (user##address |> ste) </td>
                               </tr>
                             )
                          |> ReasonReact.array
